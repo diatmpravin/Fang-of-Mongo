@@ -7,6 +7,7 @@ import re
 import base64
 import pymongo
 from pymongo import json_util
+import bson
 import handle_plugins
 from exceptions import CmdException
 
@@ -29,7 +30,7 @@ def fix_json_output(json_obj):
             for k in d:
                 data[_fix_json(k)] = _fix_json(d[k])
             return data
-        elif data_type == pymongo.binary.Binary:
+        elif data_type == bson.binary.Binary:
             ud = base64.encodestring(d)
             return { '$binary' : ud, '$type': d.subtype }
         else:
@@ -53,7 +54,7 @@ def fix_json_input(json_obj):
         elif data_type == dict:
             data = {}
             if '$binary' in d: #base64 encoded data
-                return pymongo.binary.Binary(base64.decodestring(d['$binary']), d['$type'])
+                return bson.binary.Binary(base64.decodestring(d['$binary']), d['$type'])
             else:
                 for k in d:
                     data[_fix_json(k)] = _fix_json(d[k])
