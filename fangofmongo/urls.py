@@ -7,7 +7,8 @@ import settings
 
 urlpatterns = patterns('',
     # Example:
-     (r'^fangofmongo/', include('fangofmongo.fom.urls')),
+    (r'^fangofmongo/', include('fangofmongo.fom.urls')),
+    (r'^$', include('fangofmongo.fom.urls')),
 
     #serve static using django - for develpment pupose only
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes':True}),
